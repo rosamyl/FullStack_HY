@@ -12,14 +12,26 @@ const App = () => {
     name: 'State of a component',
     exercises: 14
   }
+  const Header = ({ course }) => <h1>{course}</h1>
 
+  const Content = ( { part1, part2, part3 }) => (
+    <div>
+      <p>{part1.name} {part1.exercises}</p>
+      <p>{part2.name} {part2.exercises}</p>
+      <p>{part3.name} {part3.exercises}</p>
+    </div>
+  )
+  const Total = ({ part1, part2, part3 }) => (
+    <p>
+      Number of exercises {part1.exercises + part2.exercises + part3.exercises}
+    </p>
+  )
 
   return (
     <div>
-      <Header>{course}</Header>
-      <p>{part1.name} {part1.exercises} </p>
-      <p>{part2.name} {part2.exercises} </p>
-      <p>{part3.name} {part3.exercises} </p>
+      <Header course={course} />
+      <Content part1={part1} part2={part2} part3={part3} />
+      <Total part1={part1} part2={part2} part3={part3} />
     </div>
   )
 }
