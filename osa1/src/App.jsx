@@ -1,45 +1,72 @@
 import { useState } from 'react'
 
 const Display = ({counter}) => <div>{counter}</div>
-
+const Header = ({text}) => <h1>{text}</h1>
 const Button = ({onClick, text}) => <button onClick={onClick}>{text}</button>
 
+const Statistics= (props) => {
+  return (
+    console.log(props)
+  )
+}
+
 const App = () => {
-  const [ counter, setCounter ] = useState(0)
-  console.log('rendering with counter value', counter)
+  // tallenna napit omaan tilaansa
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+  const [all, setAll] = useState(0)
+  const [score, setScore] =useState(0)
+  const [average, setAverage] = useState(0)
+  const [positive, setPositive] = useState(0)
 
-  const increaseByOne = () => {
-    console.log('increasing, value before', counter)
-    setCounter(counter + 1)
+
+
+  const handleGoodClick = () => {
+    const updatedGood = good + 1
+    setGood(updatedGood)
+    setAll(all + updatedGood)
+    setScore(score+1)
+    setAverage((score / all))
+    setPositive(100*updatedGood / all)
+
   }
 
-  const decreaseByOne = () => { 
-    console.log('decreasing, value before', counter)
-    setCounter(counter - 1)
+  const handleNeutralClick = () => {
+    const updatedNeutral = neutral + 1
+    setNeutral(all+updatedNeutral)
+    setAll(all+1)
+    setAverage((score / all))
+    setPositive(100*good / all)
   }
 
-  const setToZero = () => {
-    console.log('resetting to zero, value before', counter)
-    setCounter(0)
+  const handleBadClick = () => {
+    const updatedBad = bad + 1
+    setBad(updatedBad)
+    setAll(all+1)
+    setScore(score - 1)
+    setAverage((score / all))
+    setPositive(100*good / all)
   }
-  
+
   return (
     <div>
-      <Display counter={counter}/>
+      <Header text="give a feedback"/>
+      <Button onClick={handleGoodClick} text={'good'}/>
+      <Button onClick={handleNeutralClick} text={'neutral'}/>
+      <Button onClick={handleBadClick} text={'bad'}/>
 
-      <Button
-        onClick={increaseByOne}
-        text='plus'
-      />
-      <Button
-        onClick={setToZero}
-        text='zero'
-      />     
-      <Button
-        onClick={decreaseByOne}
-        text='minus'
-      />           
+      <Header text={"statistics"} />
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {all}</p>
+        <p>average {average}</p>
+        <p>positive {positive}%</p>
+    
+  
     </div>
+
   )
 }
 
