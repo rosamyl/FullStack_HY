@@ -4,10 +4,13 @@ import personService from './services/persons'
 import Form from './components/Form'
 import Name from './components/Name'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import axios from 'axios'
 
 const App = () => {
   const [persons, setPersons] = useState([])
+  const [message, setMessage] = useState(null)
+  const [value, setValue] = useState('2')
 
   useEffect(() => {
     personService.getAll().then((initialPeople) => {
@@ -40,6 +43,8 @@ const App = () => {
     if (newName === '') {
       return
     }
+
+    // tarkistaa onko sekä nimi ja numero olemassa jollain
     const bothExisting = persons.find(both => both.name === newName && both.number === newNum)
     if (bothExisting) {
       alert(`${newName} already exists with this number`)
@@ -47,6 +52,8 @@ const App = () => {
       setNewNum('')
       return
     }
+
+    // jos jollain on nimi mutta eri numero ==> kysyy vaihetaanko nimi
     const existing = persons.find(existing => existing.name === newName)
     if (existing) {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with new one?`)){
@@ -59,6 +66,12 @@ const App = () => {
       }
       setNewName('')
       setNewNum('')
+      setValue('1')
+      setMessage(`Changed ${existing.name}'s number`)
+      setTimeout(()=>{
+        setMessage(null)
+        setValue('2')
+      }, 3000)
       return
     }
 
@@ -67,6 +80,12 @@ const App = () => {
     setNewName('')
     setNewNum('')
     })
+    setValue('1')
+    setMessage(`Added ${nameObject.name}`)
+    setTimeout(()=>{
+      setMessage(null)
+      setValue('2')
+    }, 3000)
 
   }
 
@@ -83,11 +102,18 @@ const App = () => {
         setPersons(persons.filter(person_i => person_i.id !== person.id))
       })
     }
+    setValue('0')
+    setMessage(`Removed ${person.name}`)
+    setTimeout(()=>{
+      setMessage(null)
+      setValue('2')
+    }, 3000)
   }
   
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={message} value={value}/>
 
       <Filter
         findName={findName}

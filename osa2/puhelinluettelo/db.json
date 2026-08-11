@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Dan Abramov",
-      "number": "1234",
+      "number": "12-43-234345",
       "id": "3"
     },
     {
@@ -11,9 +11,14 @@
       "id": "4"
     },
     {
+      "name": "123456",
+      "number": "234567",
+      "id": "iqDUsCqzgGg"
+    },
+    {
       "name": "moi",
-      "number": "12345",
-      "id": "mV9AlaMPz5Q"
+      "number": "123456",
+      "id": "0hEJOFZ2wXE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
