@@ -5,6 +5,10 @@ const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
 
+morgan.token('post', (request) =>{
+  return JSON.stringify(request.body)})
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post'))
+
 let persons = [
     { 
     "name": "Arto Hellas", 
@@ -92,11 +96,8 @@ app.post('/api/persons', (request, response) => {
 
   console.log(person)
   response.json(person)
-  morgan.token('post', (request, response) =>{
-    return JSON.stringify(request.body)})
-})
 
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post'))
+})
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT)
